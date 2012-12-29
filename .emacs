@@ -23,12 +23,13 @@
 ;;;;;;;;;; Paths ;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d")
 
-;;;;;;;;;; Package ;;;;;;;;;;
+;;;;;;;;;; Packages ;;;;;;;;;;
 (require 'package)
 
 (setq packages
   '(clojure-mode
-   paredit))
+    paredit
+    markdown-mode))
 
 (add-to-list 'package-archives
 	     '("marmalde" . "http://marmalade-repo.org/packages/") t)
@@ -39,3 +40,23 @@
     (package-install p)))
 
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+
+(eval-after-load 'paredit
+  '(progn
+    (define-key paredit-mode-map (kbd "M-[ 5 d") 'paredit-forward-barf-sexp)
+    (define-key paredit-mode-map (kbd "M-[ 5 C") 'paredit-forward-slurp-sexp)
+    (define-key paredit-mode-map (kbd "ESC <right>") 'paredit-backward-barf-sexp)
+    (define-key paredit-mode-map (kbd "ESC <left>") 'paredit-backward-slurp-sexp)))
+
+;;;;;;;;;; Menu bar ;;;;;;;;;;
+(menu-bar-mode -1)
+
+;;;;;;;;;; Setting up the windows ;;;;;;;;;;
+
+(split-window-right)
+(other-window 1)
+(split-window-below)
+(shell)
+
+(other-window -1)
